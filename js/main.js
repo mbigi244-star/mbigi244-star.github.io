@@ -76,6 +76,26 @@
     });
   }
 
+  // Bez migotania nav przy zmianie rozmiaru okna (przejście przez breakpoint)
+  var desktopMq = window.matchMedia("(min-width: 48rem)");
+  var closeIfDesktop = function () {
+    if (nav && toggle && nav.classList.contains("open") && desktopMq.matches) {
+      nav.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+  };
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    document.documentElement.classList.add("resizing");
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      document.documentElement.classList.remove("resizing");
+    }, 180);
+    closeIfDesktop();
+  });
+  if (desktopMq.addEventListener) desktopMq.addEventListener("change", closeIfDesktop);
+
   // Fokus z klawiatury natychmiast odsłania ukryte elementy scroll-reveal
   document.addEventListener("focusin", function (e) {
     var el = e.target.closest ? e.target.closest(".reveal") : null;
@@ -113,6 +133,17 @@
         el.appendChild(s);
       });
       el.classList.add("split-ready");
+    });
+  }
+
+  // Soczewka na portrecie: okrąg za kursorem odsłania drugi kadr
+  var swap = document.querySelector(".photo-swap");
+  if (swap) {
+    var swapAlt = swap.querySelector(".photo-swap__alt");
+    swap.addEventListener("mousemove", function (e) {
+      var r = swap.getBoundingClientRect();
+      swapAlt.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      swapAlt.style.setProperty("--my", (e.clientY - r.top) + "px");
     });
   }
 

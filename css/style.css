@@ -15,6 +15,7 @@
   --muted: #9b937f;          /* tekst drugorzędny */
   --gold: #c49a4c;
   --gold-bright: #e6c687;
+  --gold-hover: #f4e0ab;
   --line: rgba(196, 154, 76, 0.16);
   --line-soft: rgba(239, 233, 220, 0.08);
 
@@ -219,7 +220,7 @@ a:focus-visible, button:focus-visible {
   transform-origin: right;
   transition: transform 0.3s ease;
 }
-.nav a:hover, .nav a[aria-current="page"] { color: var(--gold-bright); }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--gold-hover); }
 .nav a:hover::after, .nav a[aria-current="page"]::after {
   transform: scaleX(1);
   transform-origin: left;
@@ -376,7 +377,7 @@ a:focus-visible, button:focus-visible {
   transition: color 0.35s ease, -webkit-text-stroke-color 0.35s ease;
 }
 .spec-row:hover .spec-row__num {
-  color: var(--gold-bright);
+  color: var(--gold-hover);
   -webkit-text-stroke-color: transparent;
 }
 .spec-row__body h3 {
@@ -384,7 +385,7 @@ a:focus-visible, button:focus-visible {
   font-weight: 500;
   transition: color 0.3s ease;
 }
-.spec-row:hover .spec-row__body h3 { color: var(--gold-bright); }
+.spec-row:hover .spec-row__body h3 { color: var(--gold-hover); }
 .spec-row__body p {
   color: var(--muted);
   font-size: 0.97rem;
@@ -396,7 +397,7 @@ a:focus-visible, button:focus-visible {
   color: var(--gold);
   transition: transform 0.35s ease, color 0.3s ease;
 }
-.spec-row:hover .spec-row__arrow { transform: translateX(0.6rem); color: var(--gold-bright); }
+.spec-row:hover .spec-row__arrow { transform: translateX(0.6rem); color: var(--gold-hover); }
 
 /* ---------- Sticky split (zasady / jak pracuję) ---------- */
 .sticky-split {
@@ -447,6 +448,28 @@ a:focus-visible, button:focus-visible {
   opacity: 0.35;
   z-index: -1;
 }
+
+/* Soczewka: drugi kadr prześwituje w okręgu wędrującym za kursorem */
+@property --kf-lens {
+  syntax: "<length>";
+  initial-value: 0px;
+  inherits: true;
+}
+.photo-swap__alt {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: clamp(0.6rem, 1.2vw, 1rem);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  --kf-lens: 0px;
+  clip-path: circle(var(--kf-lens) at var(--mx, 50%) var(--my, 50%));
+  transition: --kf-lens 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.photo-swap:hover .photo-swap__alt { --kf-lens: clamp(6rem, 9vw, 8.5rem); }
 
 /* ---------- CTA finale ---------- */
 .cta-band {
@@ -571,7 +594,7 @@ a:focus-visible, button:focus-visible {
 }
 .contact-item p { color: var(--muted); }
 .contact-item a { transition: color 0.25s ease; }
-.contact-item a:hover { color: var(--gold-bright); }
+.contact-item a:hover { color: var(--gold-hover); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 .contact-item .big {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 2.6vw, 2.2rem);
@@ -605,7 +628,7 @@ a:focus-visible, button:focus-visible {
   margin-bottom: 1.1rem;
 }
 .footer a { transition: color 0.25s ease; }
-.footer a:hover { color: var(--gold-bright); }
+.footer a:hover { color: var(--gold-hover); text-decoration: underline; text-underline-offset: 0.25em; }
 .footer li { margin-bottom: 0.5rem; }
 .footer__note { max-width: 34em; font-size: 0.85rem; line-height: 1.7; }
 .footer__bottom {
@@ -825,6 +848,9 @@ a, button, [role="button"], label, summary { cursor: pointer; }
     to { opacity: 1; transform: none; }
   }
 }
+
+/* Bez tranzycji nav podczas zmiany rozmiaru okna (anty-flicker) */
+html.resizing .nav { transition: none !important; }
 
 /* Tryb zrzutów ekranu (?shot) — bez animacji, wszystko widoczne */
 html.shot { scroll-behavior: auto; }
