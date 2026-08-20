@@ -314,6 +314,17 @@ a:focus-visible, button:focus-visible {
   --kf-lens: 0px;
   clip-path: circle(var(--kf-lens) at var(--mx, 60%) var(--my, 40%));
   transition: --kf-lens 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: grayscale(1) contrast(1.06) brightness(0.97);
+}
+
+/* „Oddech" portretu — bardzo powolny, żywy zoom całego kadru */
+@keyframes portraitBreath {
+  from { scale: 1; }
+  to { scale: 1.025; }
+}
+.hero__figure {
+  animation: portraitBreath 9s ease-in-out calc(var(--intro-delay) + 2.4s) infinite alternate;
+  transform-origin: 60% 30%;
 }
 .hero__figure::after {
   content: "";
@@ -585,6 +596,7 @@ a:focus-visible, button:focus-visible {
   --kf-lens: 0px;
   clip-path: circle(var(--kf-lens) at var(--mx, 50%) var(--my, 50%));
   transition: --kf-lens 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: grayscale(1) contrast(1.05);
   pointer-events: none;
 }
 .photo-swap:hover .photo-swap__alt { --kf-lens: clamp(6rem, 9vw, 8.5rem); }
