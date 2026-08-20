@@ -165,6 +165,25 @@
     });
   }
 
+  // Żywy portret: wideo w hero (tylko desktop, bez reduced motion)
+  var heroVideo = document.querySelector(".hero__video");
+  if (heroVideo && !reduceMotion && window.matchMedia("(min-width: 48rem)").matches &&
+      window.matchMedia("(pointer: fine)").matches) {
+    heroVideo.src = heroVideo.getAttribute("data-src");
+    heroVideo.addEventListener("playing", function () {
+      heroVideo.classList.add("playing");
+    });
+    var playPromise = heroVideo.play();
+    if (playPromise && playPromise.catch) playPromise.catch(function () {});
+    document.addEventListener("pointerdown", function retryPlay() {
+      if (heroVideo.paused) {
+        var p = heroVideo.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+      document.removeEventListener("pointerdown", retryPlay);
+    });
+  }
+
   // Złoty kursor + przyciski magnetyczne (desktop, bez reduced motion)
   var finePointer = window.matchMedia("(pointer: fine)").matches;
   if (finePointer && !reduceMotion) {

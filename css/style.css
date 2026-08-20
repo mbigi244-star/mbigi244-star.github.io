@@ -308,13 +308,28 @@ a:focus-visible, button:focus-visible {
   mask-image:
     linear-gradient(to left, #000 58%, transparent 96%);
 }
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% top;
+  -webkit-mask-image: linear-gradient(to left, #000 58%, transparent 96%);
+  mask-image: linear-gradient(to left, #000 58%, transparent 96%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.hero__video.playing { opacity: 1; }
 .hero__figure-alt {
   position: absolute;
   inset: 0;
   --kf-lens: 0px;
   clip-path: circle(var(--kf-lens) at var(--mx, 60%) var(--my, 40%));
   transition: --kf-lens 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  filter: grayscale(1) contrast(1.06) brightness(0.97);
+  -webkit-backdrop-filter: grayscale(1) contrast(1.05);
+  backdrop-filter: grayscale(1) contrast(1.05);
+  pointer-events: none;
 }
 
 /* „Oddech" portretu — bardzo powolny, żywy zoom całego kadru */
@@ -603,7 +618,7 @@ a:focus-visible, button:focus-visible {
   .photo-swap:hover .photo-swap__alt { --kf-lens: clamp(6rem, 9vw, 8.5rem); }
 }
 @media (hover: none), (pointer: coarse) {
-  .photo-swap__alt, .hero__figure-alt { display: none; }
+  .photo-swap__alt, .hero__figure-alt, .hero__video { display: none; }
 }
 
 /* ---------- CTA finale ---------- */
