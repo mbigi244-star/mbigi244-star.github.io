@@ -163,6 +163,25 @@
   // Złoty kursor + przyciski magnetyczne (desktop, bez reduced motion)
   var finePointer = window.matchMedia("(pointer: fine)").matches;
   if (finePointer && !reduceMotion) {
+    // Reflektor — poświata sunąca za kursorem po ciemnym tle
+    var spot = document.createElement("div");
+    spot.className = "spotlight";
+    spot.setAttribute("aria-hidden", "true");
+    document.body.appendChild(spot);
+    var sx = -999, sy = -999, tx = -999, ty = -999;
+    document.addEventListener("mousemove", function (e) {
+      tx = e.clientX;
+      ty = e.clientY;
+      spot.classList.add("on");
+    });
+    document.addEventListener("mouseleave", function () { spot.classList.remove("on"); });
+    (function glide() {
+      sx += (tx - sx) * 0.07;
+      sy += (ty - sy) * 0.07;
+      spot.style.transform = "translate(" + sx + "px," + sy + "px)";
+      requestAnimationFrame(glide);
+    })();
+
     var ring = document.createElement("div");
     ring.className = "cursor-ring";
     ring.setAttribute("aria-hidden", "true");

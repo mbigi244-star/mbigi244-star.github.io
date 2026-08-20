@@ -347,9 +347,12 @@ a:focus-visible, button:focus-visible {
 .hero__title span { display: block; }
 .hero__title .t-solid { color: var(--cream); }
 .hero__title .t-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(230, 198, 135, 0.85);
-  margin-left: clamp(0rem, 6vw, 7rem);
+  background: linear-gradient(168deg, #f6e3b4 4%, #d8ae5f 46%, #a8823c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--gold-bright);
+  margin-left: clamp(0rem, 2.5vw, 3rem);
 }
 .hero__meta {
   display: flex;
@@ -997,6 +1000,24 @@ a, button, [role="button"], label, summary { cursor: pointer; }
     to { opacity: 1; transform: none; }
   }
 }
+
+/* Reflektor: delikatna złota poświata podążająca za kursorem */
+.spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 42rem;
+  height: 42rem;
+  margin: -21rem 0 0 -21rem;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle closest-side,
+    rgba(216, 174, 95, 0.11), rgba(216, 174, 95, 0.045) 45%, transparent 72%);
+  transition: opacity 0.6s ease;
+  will-change: transform;
+}
+.spotlight.on { opacity: 1; }
 
 /* Bez tranzycji nav podczas zmiany rozmiaru okna (anty-flicker) */
 html.resizing .nav { transition: none !important; }
