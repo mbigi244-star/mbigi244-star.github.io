@@ -136,12 +136,10 @@
     });
   }
 
-  // Żywy portret: wideo w hero (desktop i mobile, lżejszy plik na małych ekranach)
+  // Żywy portret: wideo w hero (desktop i mobile, oryginalna jakość)
   var heroVideo = document.querySelector(".hero__video");
   if (heroVideo && !reduceMotion) {
-    var isSmall = window.matchMedia("(max-width: 48rem)").matches;
-    var mobileSrc = heroVideo.getAttribute("data-src-mobile");
-    heroVideo.src = (isSmall && mobileSrc) ? mobileSrc : heroVideo.getAttribute("data-src");
+    heroVideo.src = heroVideo.getAttribute("data-src");
     heroVideo.addEventListener("playing", function () {
       heroVideo.classList.add("playing");
     });
