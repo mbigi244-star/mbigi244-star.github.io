@@ -47,6 +47,17 @@ ul { list-style: none; }
 
 ::selection { background: var(--gold); color: #0d1714; }
 
+/* Pasek przewijania w tonacji strony */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--bg-3); }
+::-webkit-scrollbar-thumb {
+  background: #33301f;
+  border: 2px solid var(--bg-3);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+html { scrollbar-color: #33301f var(--bg-3); scrollbar-width: thin; }
+
 /* ---------- Skip link ---------- */
 .skip-link {
   position: fixed;
@@ -126,10 +137,25 @@ h3 { font-size: 1.6rem; }
 }
 .btn:hover, .btn:focus-visible { background: var(--gold); color: #14100a; }
 .btn--solid {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(172deg, #e0bd76 0%, #c49a4c 52%, #a8823c 100%);
   border-color: rgba(230, 198, 135, 0.55);
   color: #14100a;
 }
+.btn--solid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -85%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+.btn--solid:hover::before, .btn--solid:focus-visible::before { left: 135%; }
 .btn--solid:hover, .btn--solid:focus-visible {
   background: linear-gradient(172deg, #ecd192 0%, #d2a959 52%, #b58e42 100%);
   border-color: var(--gold-bright);
@@ -280,6 +306,13 @@ a:focus-visible, button:focus-visible {
     linear-gradient(to left, #000 58%, transparent 96%);
   mask-image:
     linear-gradient(to left, #000 58%, transparent 96%);
+}
+.hero__figure-alt {
+  position: absolute;
+  inset: 0;
+  --kf-lens: 0px;
+  clip-path: circle(var(--kf-lens) at var(--mx, 60%) var(--my, 40%));
+  transition: --kf-lens 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .hero__figure::after {
   content: "";
@@ -595,6 +628,21 @@ a:focus-visible, button:focus-visible {
   padding: clamp(10rem, 17vw, 14rem) 0 clamp(4rem, 8vw, 6.5rem);
 }
 .page-hero .container { position: relative; z-index: 2; }
+.page-hero::before {
+  content: "KF";
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.28em;
+  z-index: 1;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(13rem, 28vw, 22rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(230, 198, 135, 0.09);
+  pointer-events: none;
+  user-select: none;
+}
 .page-hero h1 {
   font-size: clamp(3rem, 8vw, 6.5rem);
   font-weight: 500;
@@ -608,6 +656,14 @@ a:focus-visible, button:focus-visible {
 .prose p { color: var(--muted); }
 .prose p + p { margin-top: 1.2rem; }
 .prose .lead { color: var(--cream); }
+.drop-cap::first-letter {
+  font-family: var(--serif);
+  font-size: 3.1em;
+  line-height: 0.78;
+  float: left;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--gold-bright);
+}
 .prose h2 { margin-top: 2.8rem; }
 .prose ul { margin: 1.2rem 0 0 0; }
 .prose li {

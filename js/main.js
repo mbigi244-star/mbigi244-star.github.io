@@ -11,7 +11,7 @@
   // Stan nagłówka + postęp + parallax hero
   var header = document.getElementById("header");
   var heroImg = window.matchMedia("(min-width: 48rem)").matches
-    ? document.querySelector(".hero__figure img")
+    ? document.querySelector(".hero__figure")
     : null;
   var ticking = false;
   function onScroll() {
@@ -144,6 +144,24 @@
       var r = swap.getBoundingClientRect();
       swapAlt.style.setProperty("--mx", (e.clientX - r.left) + "px");
       swapAlt.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  }
+
+  // Soczewka w hero (kursor nad portretem prześwietla jasny kadr)
+  var hero = document.querySelector(".hero");
+  var heroAlt = document.querySelector(".hero__figure-alt");
+  if (hero && heroAlt && window.matchMedia("(pointer: fine)").matches) {
+    var heroFig = document.querySelector(".hero__figure");
+    hero.addEventListener("mousemove", function (e) {
+      var r = heroFig.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right &&
+                   e.clientY >= r.top && e.clientY <= r.bottom;
+      heroAlt.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      heroAlt.style.setProperty("--my", (e.clientY - r.top) + "px");
+      heroAlt.style.setProperty("--kf-lens", inside ? "clamp(5.5rem, 8vw, 8rem)" : "0px");
+    });
+    hero.addEventListener("mouseleave", function () {
+      heroAlt.style.setProperty("--kf-lens", "0px");
     });
   }
 
