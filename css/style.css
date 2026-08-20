@@ -347,12 +347,23 @@ a:focus-visible, button:focus-visible {
 .hero__title span { display: block; }
 .hero__title .t-solid { color: var(--cream); }
 .hero__title .t-outline {
-  background: linear-gradient(168deg, #f6e3b4 4%, #d8ae5f 46%, #a8823c 100%);
+  color: var(--gold-bright);
+  margin-left: clamp(0rem, 2.5vw, 3rem);
+}
+/* Gradient nakładamy też na pojedyncze litery — inaczej znika po podziale w JS */
+.hero__title .t-outline,
+.hero__title .t-outline span {
+  background-image: linear-gradient(168deg, #f6e3b4 4%, #d8ae5f 46%, #a8823c 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: var(--gold-bright);
-  margin-left: clamp(0rem, 2.5vw, 3rem);
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero__title .t-outline,
+  .hero__title .t-outline span {
+    -webkit-text-fill-color: var(--gold-bright);
+    color: var(--gold-bright);
+  }
 }
 .hero__meta {
   display: flex;
