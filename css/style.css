@@ -599,7 +599,12 @@ a:focus-visible, button:focus-visible {
   filter: grayscale(1) contrast(1.05);
   pointer-events: none;
 }
-.photo-swap:hover .photo-swap__alt { --kf-lens: clamp(6rem, 9vw, 8.5rem); }
+@media (hover: hover) and (pointer: fine) {
+  .photo-swap:hover .photo-swap__alt { --kf-lens: clamp(6rem, 9vw, 8.5rem); }
+}
+@media (hover: none), (pointer: coarse) {
+  .photo-swap__alt, .hero__figure-alt { display: none; }
+}
 
 /* ---------- CTA finale ---------- */
 .cta-band {
