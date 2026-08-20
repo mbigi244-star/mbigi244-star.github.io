@@ -136,51 +136,29 @@
     });
   }
 
-  // Soczewka na portrecie: okrąg za kursorem odsłania drugi kadr
-  var swap = document.querySelector(".photo-swap");
-  if (swap) {
-    var swapAlt = swap.querySelector(".photo-swap__alt");
-    swap.addEventListener("mousemove", function (e) {
-      var r = swap.getBoundingClientRect();
-      swapAlt.style.setProperty("--mx", (e.clientX - r.left) + "px");
-      swapAlt.style.setProperty("--my", (e.clientY - r.top) + "px");
-    });
-  }
-
-  // Soczewka w hero (kursor nad portretem prześwietla jasny kadr)
-  var hero = document.querySelector(".hero");
-  var heroAlt = document.querySelector(".hero__figure-alt");
-  if (hero && heroAlt && window.matchMedia("(pointer: fine)").matches) {
-    var heroFig = document.querySelector(".hero__figure");
-    hero.addEventListener("mousemove", function (e) {
-      var r = heroFig.getBoundingClientRect();
-      var inside = e.clientX >= r.left && e.clientX <= r.right &&
-                   e.clientY >= r.top && e.clientY <= r.bottom;
-      heroAlt.style.setProperty("--mx", (e.clientX - r.left) + "px");
-      heroAlt.style.setProperty("--my", (e.clientY - r.top) + "px");
-      heroAlt.style.setProperty("--kf-lens", inside ? "clamp(5.5rem, 8vw, 8rem)" : "0px");
-    });
-    hero.addEventListener("mouseleave", function () {
-      heroAlt.style.setProperty("--kf-lens", "0px");
-    });
-  }
-
-  // Żywy portret: wideo w hero (tylko desktop, bez reduced motion)
+  // Żywy portret: wideo w hero (desktop i mobile, lżejszy plik na małych ekranach)
   var heroVideo = document.querySelector(".hero__video");
-  if (heroVideo && !reduceMotion && window.matchMedia("(min-width: 48rem)").matches &&
-      window.matchMedia("(pointer: fine)").matches) {
-    heroVideo.src = heroVideo.getAttribute("data-src");
+  if (heroVideo && !reduceMotion) {
+    var isSmall = window.matchMedia("(max-width: 48rem)").matches;
+    var mobileSrc = heroVideo.getAttribute("data-src-mobile");
+    heroVideo.src = (isSmall && mobileSrc) ? mobileSrc : heroVideo.getAttribute("data-src");
     heroVideo.addEventListener("playing", function () {
       heroVideo.classList.add("playing");
     });
-    var playPromise = heroVideo.play();
-    if (playPromise && playPromise.catch) playPromise.catch(function () {});
-    document.addEventListener("pointerdown", function retryPlay() {
-      if (heroVideo.paused) {
-        var p = heroVideo.play();
-        if (p && p.catch) p.catch(function () {});
-      }
-      document.removeEventListener("pointerdown", retryPlay);
+    var tryPlay = function () {
+      var p = heroVideo.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    tryPlay();
+    // iOS/Android bywają wybredne: ponów przy pierwszym dotknięciu i po powrocie do karty
+    ["pointerdown", "touchstart"].forEach(function (evt) {
+      document.addEventListener(evt, function retry() {
+        if (heroVideo.paused) tryPlay();
+        document.removeEventListener(evt, retry);
+      }, { once: true, passive: true });
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden && heroVideo.paused && heroVideo.currentTime === 0) tryPlay();
     });
   }
 
