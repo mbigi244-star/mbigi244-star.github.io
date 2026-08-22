@@ -308,19 +308,6 @@ a:focus-visible, button:focus-visible {
   mask-image:
     linear-gradient(to left, #000 58%, transparent 96%);
 }
-.hero__video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 60% top;
-  -webkit-mask-image: linear-gradient(to left, #000 58%, transparent 96%);
-  mask-image: linear-gradient(to left, #000 58%, transparent 96%);
-  opacity: 0;
-  transition: opacity 0.9s ease;
-}
-.hero__video.playing { opacity: 1; }
 
 .hero__figure::after {
   content: "";

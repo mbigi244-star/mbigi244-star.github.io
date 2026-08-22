@@ -136,30 +136,6 @@
     });
   }
 
-  // Żywy portret: wideo w hero (desktop i mobile, oryginalna jakość)
-  var heroVideo = document.querySelector(".hero__video");
-  if (heroVideo && !reduceMotion) {
-    heroVideo.src = heroVideo.getAttribute("data-src");
-    heroVideo.addEventListener("playing", function () {
-      heroVideo.classList.add("playing");
-    });
-    var tryPlay = function () {
-      var p = heroVideo.play();
-      if (p && p.catch) p.catch(function () {});
-    };
-    tryPlay();
-    // iOS/Android bywają wybredne: ponów przy pierwszym dotknięciu i po powrocie do karty
-    ["pointerdown", "touchstart"].forEach(function (evt) {
-      document.addEventListener(evt, function retry() {
-        if (heroVideo.paused) tryPlay();
-        document.removeEventListener(evt, retry);
-      }, { once: true, passive: true });
-    });
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden && heroVideo.paused && heroVideo.currentTime === 0) tryPlay();
-    });
-  }
-
   // Złoty kursor + przyciski magnetyczne (desktop, bez reduced motion)
   var finePointer = window.matchMedia("(pointer: fine)").matches;
   if (finePointer && !reduceMotion) {
