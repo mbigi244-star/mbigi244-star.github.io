@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /*?shot
 
 Sitemap: https://konradfilip.pl/sitemap.xml

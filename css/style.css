@@ -1172,3 +1172,46 @@ html.shot .intro { display: none !important; }
   .spec-row__num { font-size: 2.2rem; }
   .spec-row__arrow { display: none; }
 }
+
+/* ---------- FAQ ---------- */
+.faq { display: flex; flex-direction: column; margin-top: 1.5rem; max-width: 52rem; }
+.faq__item {
+  border-top: 1px solid var(--line-soft);
+  padding: 1.35rem 0;
+}
+.faq__item:last-child { border-bottom: 1px solid var(--line-soft); }
+.faq__item summary {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: var(--cream);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: color 0.25s ease;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after {
+  content: "+";
+  font-family: var(--sans);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--gold);
+  flex: none;
+  transition: transform 0.3s ease, color 0.25s ease;
+}
+.faq__item[open] summary::after { transform: rotate(45deg); }
+.faq__item summary:hover { color: var(--gold-hover); }
+.faq__item summary:hover::after { color: var(--gold-hover); }
+.faq__item p {
+  color: var(--muted);
+  margin-top: 0.9rem;
+  max-width: 44em;
+  font-size: 0.98rem;
+}
+.faq__item a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 0.2em; }
+.faq__item a:hover { color: var(--gold-hover); }
+.sec-head { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.5rem; }
